@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .control-panel {
+            margin-bottom: 20px;
+        }
+        .test-list {
+            margin-top: 20px;
+        }
+        .test-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .test-options {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>لوحة التحكم</h1>
+        <div class="control-panel">
+            <button id="addTestButton">إضافة اختبار</button>
+        </div>
+        <div class="test-list" id="testList"></div>
+    </div>
+
+    <script>
+        document.getElementById('addTestButton').addEventListener('click', function() {
+            let testTitle = prompt("أدخل عنوان الاختبار:");
+            if (testTitle) {
+                let options = [];
+                for (let i = 0; i < 4; i++) {
+                    let option = prompt(`أدخل الخيار ${i + 1}:`);
+                    if (option) {
+                        options.push(option);
+                    } else {
+                        alert("يجب إدخال جميع الخيارات الأربعة.");
+                        return;
+                    }
+                }
+                addTestToPage(testTitle, options);
+            }
+        });
+
+        function addTestToPage(title, options) {
+            let testItem = document.createElement('div');
+            testItem.classList.add('test-item');
+
+            let testTitle = document.createElement('div');
+            testTitle.classList.add('test-title');
+            testTitle.innerText = title;
+            testItem.appendChild(testTitle);
+
+            let testOptions = document.createElement('div');
+            testOptions.classList.add('test-options');
+
+            options.forEach(option => {
+                let optionItem = document.createElement('div');
+                let optionLabel = document.createElement('label');
+                let optionInput = document.createElement('input');
+                optionInput.type = 'radio';
+                optionInput.name = `test-${title}`;
+                optionLabel.appendChild(optionInput);
+                optionLabel.append(option);
+                optionItem.appendChild(optionLabel);
+                testOptions.appendChild(optionItem);
+            });
+
+            testItem.appendChild(testOptions);
+            document.getElementById('testList').appendChild(testItem);
+        }
+    </script>
+</body>
+</html>
